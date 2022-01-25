@@ -1,5 +1,5 @@
 """
-ASGI config for cats_dogs project.
+ASGI config for KOTY project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'cats_dogs.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'KOTY.settings')
 
 application = get_asgi_application()

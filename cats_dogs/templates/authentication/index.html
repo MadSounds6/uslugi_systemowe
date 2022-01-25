@@ -1,0 +1,106 @@
+<!doctype html>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Sprawdź: kot czy pies?</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+
+    <style>
+        html,
+        body {
+            min-height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            margin: 32px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: lightgrey;
+        }
+
+        .card {
+            width: 600px;
+            padding: 16px;
+            border-radius: 4px;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .card * {
+            text-align: center;
+        }
+
+        button a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .buttons-group {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body>
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        <strong>Message:</strong> {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
+
+    <div class="card">
+        <h3>Sprawdź: Kot czy pies?</h3>
+
+        {% if user.is_authenticated %}
+        <h5>Cześć {{ user.username }}!</h5>
+
+        {% if predicted_class %}
+
+        <p>To jest: {{ predicted_class }}</p>
+        <img src="{{ image_as_string }}" alt="wynik" />
+        <a href="/" class="btn btn-primary">Powrót</a>
+
+        {% else %}
+
+        <p>Wybierz obraz</p>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="uploaded-file" />
+            <button class="btn btn-primary" type="submit">Rozpoznaj</button>
+        </form>
+
+        {% endif %}
+
+        <a href="/signout" class="btn btn-light">Wyloguj</a>
+
+        {% else %}
+        <h5>Najpierw zaloguj się lub zarejestruj!</h5>
+        <div class="buttons-group">
+            <button class="btn btn-light" type="submit"> <a href="/signup">Zarejestruj </a></button>
+            <button class="btn btn-light" type="submit"><a href="/signin">Zaloguj</a></button>
+        </div>
+        {% endif %}
+    </div>
+</body>
+
+</html>
